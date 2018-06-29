@@ -4,10 +4,10 @@
 #c) el porcentaje
 
 vocal = "aeiou"
-texto = "hoy yes una lindo dia para comer un asado maddres.re"
+texto = "hoy yes una lindo dia para comer una asadom maddres.re"
 texto += "."
 
-fue_prLetra = end_vocal = ft_vocal= ft_ant = end_letra = False
+fue_prLetra = end_vocal = ft_vocal= ft_ant = end_letra = fin_palabra = False
 anterior = ""
 print(texto)
 cft_end = cpal = cft_ant = 0
@@ -18,19 +18,19 @@ for i in texto:
             ft_vocal = i in vocal
             fue_prLetra = True
             
-        if end_letra:
+        if fin_palabra:
             if ft_char == anterior:
                 ft_ant = True
         
-        end_letra = False
+        fin_palabra = False
         end_vocal = i in vocal
         end_char = i
-        end_letra = True
+        #end_letra = True
 
     else:
         cpal += 1
         if cpal > 1:
-            print(anterior,ft_char)
+            #print(anterior,ft_char)
             if ft_ant:
                 cft_ant += 1
 
@@ -39,6 +39,7 @@ for i in texto:
             cft_end += 1
         anterior = end_char
         fue_prLetra = end_vocal = ft_vocal = ft_ant = False
+        fin_palabra = True
 
 
 print("Cantidad de palabras que empiezan y terminan con vocal", cft_end)
