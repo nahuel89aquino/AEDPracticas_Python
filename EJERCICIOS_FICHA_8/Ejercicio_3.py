@@ -13,16 +13,16 @@ print(texto)
 cft_end = cpal = cft_ant = 0
 for i in texto:
     if i.isalpha():
-        if end_letra:
-            if ft_char == anterior:
-                ft_ant = True
-        end_letra = False
         if not fue_prLetra:
             ft_char = i
             ft_vocal = i in vocal
             fue_prLetra = True
-
-
+            
+        if end_letra:
+            if ft_char == anterior:
+                ft_ant = True
+        
+        end_letra = False
         end_vocal = i in vocal
         end_char = i
         end_letra = True
@@ -32,7 +32,7 @@ for i in texto:
         if cpal > 1:
             print(anterior,ft_char)
             if ft_ant:
-                cft_ant =+ 1
+                cft_ant += 1
 
         #print(ft_letra in vocal)
         if ft_vocal and end_vocal:
