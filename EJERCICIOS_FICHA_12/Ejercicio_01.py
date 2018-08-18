@@ -29,13 +29,28 @@ def promedio(v, cant):
     return prom
 
 
+def menor(mes):
+    men = mes[0]
+    pos = 0
+    for i in range(len(mes)):
+        if men >= mes[i]:
+            men = mes[i]
+            pos = i
+    return pos
+
+
 def menu():
+    meses = ("ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO",
+             "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE")
+    prom_trim = -1
     salir = False
+    periodo = None
     # generacion aleatoria de precipitaciones
     mes = list()
     for i in range(12):
         mes.append(random.randint(40, 180))
     while not salir:
+        print(mes)
         print("Ejercicio Ficha 12 - Pluviometro")
         print("1- Determinar el promedio anual de lluvias")
         print("2- Determinar el promedio de lluvias para un determinado trimestre")
@@ -46,11 +61,31 @@ def menu():
             prom_anual = promedio(mes, len(mes))
             print("Promedio anual de lluvias: ", prom_anual, "mm")
         elif opc == 2:
-            pass
+            print("Seleccione el trimestre", "1 - 2 - 3 - 4")
+            trimestre = validar()
+            if trimestre == 1:
+                print(mes[1:3])
+                prom_trim = promedio(mes[1:3], 3)
+                periodo = "primer"
+            if trimestre == 2:
+                print(mes[3:6])
+                prom_trim = promedio(mes[3:6], 3)
+                periodo = "segundo"
+            if trimestre == 3:
+                print(mes[6:9])
+                prom_trim = promedio(mes[6:9], 3)
+                periodo = "tercer"
+            if trimestre == 4:
+                print(mes[9:12])
+                prom_trim = promedio(mes[9:12], 3)
+                periodo = "cuarto"
+            print("El promedio de lluvias para el", periodo, "trimestre es: ", prom_trim)
         elif opc == 3:
-            pass
+            men = menor(mes)
+            print("El mes mas seco fue: ", meses[men])
         else:
             salir = True
 
 
-menu()
+if __name__ == '__main__':
+    menu()
