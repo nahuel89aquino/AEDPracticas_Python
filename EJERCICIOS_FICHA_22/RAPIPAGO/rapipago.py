@@ -121,6 +121,7 @@ def montosxservicios(fd):
         fecha = cobro.fecha
         tipo = cobro.tipo
         montos[tipo - 1][int(fecha.dia) - 1] += 1
+    m.close()
     mostrar_matriz(montos)
 
 
