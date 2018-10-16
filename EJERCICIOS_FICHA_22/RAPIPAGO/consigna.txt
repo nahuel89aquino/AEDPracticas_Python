@@ -1,0 +1,13 @@
+Una empresa de pagos de servicios necesita un programa que permita llevar los cobros que ha realizado,
+para ello marco como muy importante que los datos no se pierdan. De un cobro se sabe el dia en que se cobró,
+el tipo de servicio (un valor de 1 a 15), el monto cobrado y el número de cuenta asociada a la persona que
+pagó dicho servicio.
+
+Se desea manejar la siguiente lógica a través de un menú de opciones que cumpla:
+
+1- Agregar un nuevo cobro al archivo de cobros.
+2- Determinar el monto total para un número de cuenta X pasado por parámetro
+3- Indicar el monto total acumulado para cada servicio, en el día del mes que se lo cobro (matriz de
+   acumulación)
+4- Indicar, a partir de la matriz, el día con mayor monto cobrado
+5- Indicar, a partir de la matriz, el promedio cobrado para el servicio X pasado por parámetro
