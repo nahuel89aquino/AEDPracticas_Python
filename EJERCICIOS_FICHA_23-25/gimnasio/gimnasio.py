@@ -65,21 +65,20 @@ def opcion1(fd):
     mostrar_lista(fd)
 
 
-def buscar(m, num):
-    global fd
+def buscar(m, num, fd):
     t = os.path.getsize(fd)
 
-    fp_inicial = m.tell()
-    m.seek(0, io.SEEK_SET)
+    fp_inicial = m.tell()  # guarda la posicion del file pointer
+    m.seek(0, io.SEEK_SET)  # regresa el file pointer a 0, importante para comenzar la lectura desde el inicio
     pos = -1
     while m.tell() < t:
-        fd = m.tell()
+        fd = m.tell()  # lee la posicion del file pointer antes de la lectura
         socio = pickle.load(m)
         if socio.activo and socio.numero == num:
             pos = fd
             break
 
-    m.seek(fp_inicial, io.SEEK_SET)
+    m.seek(fp_inicial, io.SEEK_SET)  # regresa el file pointer a su posicion original
     return pos
 
 
@@ -89,7 +88,86 @@ def opcion2(fd):
         return
     num = validar("Ingrese el numero de socio a buscar", 0, 99999)
     m = open(fd, 'r+b')
-    pos = buscar(m, num)
+    pos = buscar(m, num, fd)
+    if pos != -1:
+        # lectura
+        m.seek(pos, io.SEEK_SET)
+        socio = pickle.load(m)
+        print("Datos de socio numero {}:".format(str(num)))
+        display(socio)
+        socio.plan = validar("Ingrese el tipo de plan", inf=0, sup=3)
+        socio.monto = float(input("Ingrese el monto: $"))
+        # modificiacion de los datos
+        m.seek(pos, io.SEEK_SET)
+        pickle.dump(socio, m)
+        print("Se grabaron los cambios...")
+        print("Datos actualizados del socio numero {}".format(str(num)))
+        m.seek(pos, io.SEEK_SET)
+        socio = pickle.load(m)
+        display(socio)
+        m.close()
+    else:
+        print("Socio no encontrado.")
+
+
+def opcion4(fd):
+    m = open(fd, "rb")
+    t = os.path.getsize(fd)
+
+    print("Datos del archivo...")
+    while m.tell() < t:
+        socio = pickle.load(m)
+        if socio.activo:
+            display(socio)
+    m.close()
+
+
+def opcion3(fd):
+    if not os.path.exists(fd):
+        print("Archivo no encontrado...")
+        return
+    num = validar("Ingrese el numero de socio a dar de baja", 0, 99999)
+    m = open(fd, 'r+b')
+    pos = buscar(m, num, fd)
+    if pos != -1:
+        # lectura de registro
+        m.seek(pos, io.SEEK_SET)
+        socio = pickle.load(m)
+        print("Datos del socio a dar de baja: ")
+        display(socio)
+        # modificacion del registro
+        socio.activo = False
+        m.seek(pos, io.SEEK_SET)
+        pickle.dump(socio, m)
+        print("Socio eliminado...")
+    else:
+        print("Socio no encontrado...")
+    m.close()
+
+
+def depuracion(fd):
+    m = open(fd, "rb")
+    s = open("temporal.dat", "wb")
+
+    t = os.path.getsize(fd)
+    while m.tell() < t:
+        socio = pickle.load(m)
+        if socio.activo:
+            pickle.dump(socio, s)
+    m.close()
+    s.close()
+
+    # eliminacion
+    os.remove(fd)
+    # renombrado
+    os.rename("temporal.dat", fd)
+
+
+def opcion6(fd):
+    print("Depuracion del archivo...")
+    depuracion(fd)
+    print("Contenido del archivo despues de la compactacion...")
+    mostrar_lista(fd)
 
 
 def main():
@@ -103,13 +181,13 @@ def main():
         elif ops == 2:
             opcion2(fd)
         elif ops == 3:
-            pass
+            opcion3(fd)
         elif ops == 4:
-            pass
+            opcion4(fd)
         elif ops == 5:
             pass
         elif ops == 6:
-            pass
+            opcion6(fd)
         elif ops == 7:
             pass
 
